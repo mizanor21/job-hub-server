@@ -17,10 +17,18 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const fresherJobCollection = client.db('jobHub').collection('fresherJobs');
+        const experienceJobCollection = client.db('jobHub').collection('experienceJobs');
 
         app.get('/fresher-jobs', async (req, res) => {
             const query = {};
             const cursor = fresherJobCollection.find(query)
+            const result = await cursor.limit(6).toArray();
+            res.send(result)
+        })
+
+        app.get('/experience-jobs', async (req, res) => {
+            const query = {};
+            const cursor = experienceJobCollection.find(query)
             const result = await cursor.limit(6).toArray();
             res.send(result)
         })
