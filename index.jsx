@@ -18,6 +18,7 @@ async function run() {
     try {
         const fresherJobCollection = client.db('jobHub').collection('fresherJobs');
         const experienceJobCollection = client.db('jobHub').collection('experienceJobs');
+        const topITCompanyCollection = client.db('jobHub').collection('topITCompanies')
 
         app.get('/fresher-jobs', async (req, res) => {
             const query = {};
@@ -31,6 +32,13 @@ async function run() {
             const cursor = experienceJobCollection.find(query)
             const result = await cursor.limit(6).toArray();
             res.send(result)
+        })
+
+        app.get('/top-it-companies', async (req, res) => {
+            const query = {};
+            const cursor = topITCompanyCollection.find(query)
+            const result = await cursor.limit(3).toArray();
+            res.send(result);
         })
     }
     finally {
